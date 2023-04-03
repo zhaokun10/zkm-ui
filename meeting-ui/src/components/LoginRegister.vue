@@ -11,6 +11,7 @@
            label="UserName" />
   <q-input outlined
            v-model="formData.password"
+           type="password"
            class="q-mb-md"
            label="Password" />
   <div class="row">
@@ -25,6 +26,7 @@
 
 <script>
 import {useStore} from "../store";
+import {Notify} from "quasar";
 
 export default {
   props:['tab'],
@@ -42,12 +44,30 @@ export default {
     submitForm(){
       if(this.tab=='login'){
         this.$api.post("/login?username="+this.$data.formData.username+"&password="+this.$data.formData.password).then(ref=>{
-         window.localStorage.setItem("token", ref.data.data)
+          window.localStorage.setItem("token", ref.data.data)
           this.$data.store.commit("exampleModule/changeUserName", this.$data.formData.username)
           this.$router.push('/user')
+          this.$q.notify({
+            message: 'login success',
+            color: 'success',
+            position: this.position
+          })
         })
       }else {
-        this.$axios.post("http://localhost:7999/register?userame="+this.$data.formData.name+"&password="+this.$data.formData.password+"&email="+this.$data.formData.email)
+        const userZkm = {
+          'username':this.$data.formData.username,
+          'password':this.$data.formData.password,
+          'email':this.$data.formData.email
+        }
+        this.$api.post("http://localhost:7999/register",userZkm).then(ref=>{
+          this.tab=
+          Notify.create({
+            message: 'success',
+            color: 'success',
+            position: this.position
+          })
+        })
+
       }
     }
   }

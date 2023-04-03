@@ -26,7 +26,7 @@
                 @click="toChat(user.id, user.username, user.online)"
                 clickable
                 v-ripple>
-                <q-item-section avatar>
+                <q-item-section avatar >
                   <q-avatar color="primary" text-color="white">
                     {{ user.nickName.charAt(0) }}
                   </q-avatar>

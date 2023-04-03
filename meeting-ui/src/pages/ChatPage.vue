@@ -8,7 +8,6 @@
           v-for="message in messages"
           :name="message.sendUser === store.state.exampleModule.id ? store.state.exampleModule.username :store.state.exampleModule.friendName"
           :avatar="message.avatar"
-          :stamp="message.readed===0 ? '未读':'已读'"
           :text="[message.content]"
           :sent="message.sendUser === store.state.exampleModule.id ? true : false"
         />
@@ -93,7 +92,6 @@ export default {
     }
     const this_ = this
     this.ws.onmessage = function (ev) {
-      console.log(ev.data())
       let a = JSON.parse(ev.data);
       const message ={
         readed : 0,

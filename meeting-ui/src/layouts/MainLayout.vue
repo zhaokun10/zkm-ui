@@ -3,12 +3,18 @@
     <q-header elevated>
       <q-toolbar>
         <q-btn
-          v-if="$route.fullPath.includes('/chat')"
+          v-if="$route.fullPath.includes('/chat')||$route.fullPath.includes('/userInfo')||$route.fullPath.includes('/friendInfo')"
           @click="back()"
           icon="arrow_back"
           flat
           dense
           label="Back" />
+        <q-btn
+          v-if="$route.fullPath.includes('/chat')"
+          to="/friendInfo"
+          flat
+          dense
+          label="friendInfo" />
 
         <q-btn
           v-if="$route.fullPath.includes('/user')"
@@ -95,7 +101,10 @@ title(){
       window.location.href="http://localhost:7999/"
     },
     logout(){
-      this.$api.post("/user/logout?username="+this.$data.store.state.exampleModule.username).then(ref=>{
+      const data={
+        "username":this.$data.store.state.exampleModule.username
+      }
+      this.$api.post("/user/logout",data).then(ref=>{
         window.localStorage.removeItem("token")
         this.$data.store.commit('exampleModule/changeUserName',"Login")
         this.$router.push('/')
